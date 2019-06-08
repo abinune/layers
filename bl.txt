@@ -1,0 +1,97 @@
+sing System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using System.Data.Common;
+using GuestPhoneBook.Entities;
+using GuestPhoneBook.Exceptions;
+
+namespace GuestPhoneBook.DataAccessLayer
+{
+    public class GuestDAL
+    {
+        public static List<Guest> GuestList = new List<Guest>();
+
+        public bool AddGuestDAL(Guest newGuest)
+        {
+            bool GuestAdded = false;
+            try
+            {
+                GuestList.Add(newGuest);
+                GuestAdded = true;
+            }
+            catch (SystemException ex)
+            {
+                throw new GuestPhoneBookException(ex.Message);
+            }
+            return GuestAdded;
+
+        }
+
+        public List<Guest> GetAllGuestsDAL()
+        {
+            return GuestList;
+        }
+
+        public Guest SearchGuestDAL(int searchGuestID)
+        {
+            Guest searchGuest = null;
+            try
+            {
+                searchGuest = GuestList.Find(Guest => Guest.GuestID == searchGuestID);
+            }
+            catch (SystemException ex)
+            {
+                throw new GuestPhoneBookException(ex.Message);
+            }
+            return searchGuest;
+        }
+
+        public bool UpdateGuestDAL(Guest updateGuest)
+        {
+            bool GuestUpdated = false;
+            try
+            {
+                for (int i = 0; i < GuestList.Count; i++)
+                {
+                    if (GuestList[i].GuestID == updateGuest.GuestID)
+                    {
+                        updateGuest.GuestName = GuestList[i].GuestName;
+                        updateGuest.GuestContactNumber = GuestList[i].GuestContactNumber;
+                        GuestUpdated = true;
+                    }
+                }
+            }
+            catch (SystemException ex)
+            {
+                throw new GuestPhoneBookException(ex.Message);
+            }
+            return GuestUpdated;
+
+        }
+
+        public bool DeleteGuestDAL(int deleteGuestID)
+        {
+            bool GuestDeleted = false;
+            try
+            {
+                Guest deleteGuest = GuestList.Find(Guest => Guest.GuestID == deleteGuestID);
+
+                if (deleteGuest != null)
+                {
+                    GuestList.Remove(deleteGuest);
+                    GuestDeleted = true;
+                }
+            }
+            catch (DbException ex)
+            {
+                throw new GuestPhoneBookException(ex.Message);
+            }
+            return GuestDeleted;
+
+        }
+
+    }
+}

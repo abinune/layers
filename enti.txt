@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GuestPhoneBook.Entities
+{
+    public class Guest
+    {
+        private int GuestID;
+
+        public int GuestID
+        {
+            get { return GuestID; }
+            set { GuestID = value; }
+        }
+        private string GuestName;
+
+        public string GuestName
+        {
+            get { return GuestName; }
+            set { GuestName = value; }
+        }
+        private string GuestContactNumber;
+
+        public string GuestContactNumber
+        {
+            get { return GuestContactNumber; }
+            set { GuestContactNumber = value; }
+        }
+
+        public Guest()
+        {
+            GuestID = 0;
+            GuestName = string.Empty;
+            GuestContactNumber = string.Empty;
+        }
+    }
+}
